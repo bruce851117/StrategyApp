@@ -21,10 +21,14 @@ import io
 # import dash_table
 # import plotly.express as px
 import statsmodels.api as sm
-
+from glob import glob
+files = glob('temp3/*.csv')
 # ----------------載入資料--------------
-origin_data = pd.read_csv("temp3/yearly_trading_data_transformed_Momentum_by_sectors.csv") #財報指標和月頻交易日報酬，由"profit"和股價資料merge產生
-
+# origin_data = pd.read_csv("temp3/yearly_trading_data_transformed_Momentum_by_sectors.csv") #財報指標和月頻交易日報酬，由"profit"和股價資料merge產生
+origin_data = pd.DataFrame()
+for i in files:
+    origin_data = origin_data.append(pd.read_csv(i))
+    
 def add_bull_bear_signal_score(data):
     sig = pd.read_csv('market_signal.csv')
     select_bull = ['marketing_bull_lin','marketing_bull_svr']
