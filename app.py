@@ -921,8 +921,7 @@ def render_content(tab, jsonified_cleaned_data_3, jsonified_cleaned_data_4):
 #------運行APP -------
 if __name__ == "__main__":
 
-    app.run_server(debug=True, port=int(os.environ.get("PORT", 5000)), host='0.0.0.0'
-    )
+    app.run_server(port=int(os.environ.get("PORT", 5000)), host='0.0.0.0')
 
 
 
