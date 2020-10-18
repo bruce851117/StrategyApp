@@ -9,7 +9,7 @@ import numpy as np
 import os
 from pandas.tseries.offsets import MonthEnd
 import json
-from value_transform import value_transfrom
+from module.value_transform import value_transfrom
 import matplotlib.pyplot as plt
 # import seaborn as sns
 import dash_bootstrap_components as dbc
@@ -21,9 +21,15 @@ import io
 # import dash_table
 # import plotly.express as px
 import statsmodels.api as sm
-
+from glob import glob
+files = glob('temp3/*.csv')
 # ----------------載入資料--------------
-origin_data = pd.read_csv("temp3/yearly_trading_data_transformed_Momentum_by_sectors.csv") #財報指標和月頻交易日報酬，由"profit"和股價資料merge產生
+# origin_data = pd.read_csv("temp3/yearly_trading_data_transformed_Momentum_by_sectors.csv") #財報指標和月頻交易日報酬，由"profit"和股價資料merge產生
+origin_data = pd.DataFrame()
+for i in files:
+    origin_data = origin_data.append(pd.read_csv(i))
+
+
 
 def add_bull_bear_signal_score(data):
     sig = pd.read_csv('market_signal.csv')
@@ -70,9 +76,8 @@ app = dash.Dash(external_stylesheets=[
     "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap-grid.min.css"],
     suppress_callback_exceptions=True
 )
-app.title = 'EMAQ Strategy'
+# 更新
 server = app.server
-
 #---------Layout 排版 ---------------
 app.layout = html.Div([
     
@@ -913,10 +918,11 @@ def render_content(tab, jsonified_cleaned_data_3, jsonified_cleaned_data_4):
         return go.Figure(data = fig)
 
 
-
 #------運行APP -------
 if __name__ == "__main__":
-    server.run(debug=False)
+
+    app.run_server()
+
 
 
 
